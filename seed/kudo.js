@@ -18,8 +18,8 @@ module.exports = [
     fromId: secondRand(randomNum())
   },
   {
-    title: 'Hey yaa',
-    message: 'This is a hey yaa msg',
+    title: 'Graduation',
+    message: 'Congratulations on the graduation',
     toId: randomNum(),
     fromId: secondRand(randomNum())
   },
