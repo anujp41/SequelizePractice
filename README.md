@@ -16,8 +16,6 @@ Branches establish different ways to generate relations between the two tables
 
 To work on:
 
-- Eager loading (almost done)
-- Cascading delete
 - Join table that lists all notes created by user
 
 > Seed folder contains seed data for two tables: Kudos & Users
