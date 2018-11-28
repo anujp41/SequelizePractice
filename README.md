@@ -11,7 +11,8 @@ Branches establish different ways to generate relations between the two tables
 
 ## List of branches:
 
-1. **_belongsTo_**: Kudos belongs to User; `GET` requests to kudos also include users (both to and from); on deleting users, the deletion cascades into Users as well
+1. **_belongsTo_**: Kudos belongs to User as Sender/Receiver; `GET` requests to kudos also include users (both to and from); on deleting users, the deletion cascades into Users as well
+1. **_hasMany_**: Users can send predefined Kudos to any other user; join table will record the users that sent the kudos to other users (TO WORK ON NEXT)
 
 To work on:
 
