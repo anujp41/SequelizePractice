@@ -1,4 +1,4 @@
-## Repo created to practice different relations between SQL tables
+# Repo created to practice different relations between SQL tables
 
 **App only has backend in SQL using Sequelize as ORM; api routes tested using Postman**
 
@@ -9,9 +9,9 @@ App has two tables:
 
 Branches establish different ways to generate relations between the two tables
 
-> List of branches:
+## List of branches:
 
-1. belongsTo: Kudos belongs to User; `GET` requests to kudos also include users (both to and from); on deleting users, the deletion cascades into Users as well
+1. **_belongsTo_**: Kudos belongs to User; `GET` requests to kudos also include users (both to and from); on deleting users, the deletion cascades into Users as well
 
 To work on:
 
