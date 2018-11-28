@@ -10,8 +10,6 @@
   "author": "Anuj Pant <anuj.pant41@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
-    "pg": "^7.6.1",
-    "sequelize": "^4.41.2"
+    "express": "^4.16.4"
   }
 }
