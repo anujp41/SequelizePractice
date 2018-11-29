@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Kudo, User } = require('../model');
 
+//Retrieves all kudos as well as info on the sender/received
 router.get('/', (req, res) => {
   Kudo.findAll({
     attributes: ['id', 'title', 'message'],
@@ -16,6 +17,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//Posts new kudos to database
 router.post('/', (req, res) => {
   Kudo.create(req.body)
     .then(result => {
@@ -27,6 +29,7 @@ router.post('/', (req, res) => {
     });
 });
 
+//Removes kudos
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   Kudo.destroy({ where: { id } })
