@@ -1,31 +1,65 @@
 const router = require('express').Router();
-const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 const User = require('../model').User;
 const Kudo = require('../model').Kudo;
 
+//HELPER FUNCTION TO GET ALL USERS
+const getAllUsers = () => User.findAndCountAll();
+
+//HELPER FUNCTIONS THAT RETRIEVES MESSAGES RECEIVED
+const getToMessages = id => {
+  return Kudo.findAndCountAll({
+    where: {
+      toId: id
+    },
+    attributes: ['id', 'title', 'message'],
+    include: [{ model: User, as: 'from', attributes: ['name'] }]
+  });
+};
+
+//HELPER FUNCTIONS THAT RETRIEVES MESSAGES SENT
+const getFromMessages = id => {
+  return Kudo.findAndCountAll({
+    where: {
+      fromId: id
+    },
+    attributes: ['id', 'title', 'message'],
+    include: [{ model: User, as: 'to', attributes: ['name'] }]
+  });
+};
+
 //Retrieves all users
-router.get('/', (req, res) => {
-  User.findAll({})
+router.get('/', (req, res) =>
+  getAllUsers()
     .then(users => res.json(users))
     .catch(err => {
       console.log(err);
       res.status(404).json({ error: 'Server error' });
-    });
+    })
+);
+
+//Retrieves all sent and received messages
+router.get('/interaction/:id', (req, res) => {
+  const { id } = req.params;
+  return Promise.all([getToMessages(id), getFromMessages(id)]).then(
+    ([sentTo, receivedFrom]) => res.json({ sentTo, receivedFrom })
+  );
 });
 
 //Retrives list of users messages sent to
 router.get('/sender/:id', (req, res) => {
   const { id } = req.params;
-  Kudo.findAll({
-    where: {
-      [Op.or]: [{ toId: { [Op.eq]: id } }, { fromId: { [Op.eq]: id } }]
-    },
-    attributes: ['id', 'title', 'message'],
-    include: [
-      { model: User, as: 'to', attributes: ['name'] },
-      { model: User, as: 'from', attributes: ['name'] }
-    ]
-  })
+  getToMessages(id)
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => console.log(err));
+});
+
+//Retrieves list of user messages received from
+router.get('/receiver/:id', (req, res) => {
+  const { id } = req.params;
+  getFromMessages(id)
     .then(users => {
       res.json(users);
     })
@@ -57,13 +91,29 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+//TEST ROUTES
+
+const handleHey = () => {
+  return new Promise(function(resolve, reject) {
+    resolve({ msg: 'hey' });
+  });
+};
+
+const handleThere = () => {
+  return new Promise(function(resolve, reject) {
+    resolve({ msg: 'there' });
+  });
+};
+
 router.get('/combine', (req, res) => {
-  res
-    .redirect('/api/user/hey')
-    .then(user => res.json({ user, result: 'this is msg' }));
+  return Promise.all([handleHey(), handleThere()]).then(result =>
+    res.json(result)
+  );
 });
 
-router.get('/hey', (req, res) => res.json({ msg: 'hey' }));
-router.get('/there', (req, res) => res.json({ msg: 'there' }));
+router.get('/hey', (req, res) => handleHey().then(result => res.json(result)));
+router.get('/there', (req, res) =>
+  handleThere().then(result => res.json(result))
+);
 
 module.exports = router;
