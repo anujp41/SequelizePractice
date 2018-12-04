@@ -4,7 +4,7 @@ const User = require('../model').User;
 const Kudo = require('../model').Kudo;
 
 //HELPER FUNCTION TO GET ALL USERS
-const getAllUsers = () => User.findAndCountAll();
+const getAllUsers = () => User.findAll({ attributes: ['id', 'name'] });
 
 //HELPER FUNCTIONS THAT RETRIEVES MESSAGES RECEIVED
 const getToMessages = id => {
