@@ -8,7 +8,7 @@ module.exports = {
         model: Group,
         through: {
           model: GroupUser,
-          attributes: ['groupId']
+          attributes: []
         },
         attributes: ['name', 'purpose', 'keywords']
       }

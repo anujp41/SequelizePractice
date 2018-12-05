@@ -19,4 +19,12 @@ const Group = db.define('group', {
   }
 });
 
+Group.beforeBulkCreate(function(records, { fields }) {
+  console.log('i am here');
+  console.log(
+    db.models.user.create({ name: 'Teddy', email: 'kale@kallu.com' })
+  );
+  return;
+});
+
 module.exports = Group;
