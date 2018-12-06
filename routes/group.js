@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const { groupHelpers } = require('../controller');
 
 router.get('/', (req, res) => {
-  res.send('You are in the group route!');
+  groupHelpers.getAllGroups().then(response => res.json(response));
 });
 
 module.exports = router;

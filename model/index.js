@@ -6,6 +6,7 @@ const GroupUser = require('./GroupUser');
 
 User.belongsToMany(Group, { through: GroupUser });
 Group.belongsToMany(User, { through: GroupUser });
-User.hasOne(Group, { as: 'moderator' });
+// User.hasOne(Group, { as: 'moderator' });
+Group.belongsTo(User, { foreignKey: 'moderator' });
 
 module.exports = { db, User, Group, GroupUser };

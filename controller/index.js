@@ -1,3 +1,4 @@
 const userHelpers = require('./user');
+const groupHelpers = require('./group');
 
-module.exports = { userHelpers };
+module.exports = { userHelpers, groupHelpers };

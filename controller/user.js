@@ -6,11 +6,11 @@ module.exports = {
       attributes: ['id', 'name'],
       include: {
         model: Group,
+        attributes: ['name'],
         through: {
           model: GroupUser,
           attributes: []
-        },
-        attributes: ['name', 'purpose', 'keywords']
+        }
       }
     });
   }
