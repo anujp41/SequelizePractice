@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Kudo, User } = require('../model');
 
 const kudoHelpers = {
@@ -6,6 +7,31 @@ const kudoHelpers = {
       attributes: ['id', 'title', 'message'],
       include: [
         { model: User, as: 'to', attributes: ['id', 'name'] },
+        { model: User, as: 'from', attributes: ['id', 'name'] }
+      ]
+    });
+  },
+  searchKudo(term) {
+    // return term;
+    return Kudo.findAll({
+      attributes: ['id', 'title', 'message'],
+      where: {
+        [Op.or]: {
+          title: {
+            [Op.iLike]: `%${term}%` //case insensitive search for 'great'
+          },
+          message: {
+            [Op.iLike]: `%${term}%` //case insensitive search for 'great'
+          }
+        }
+      },
+      include: [
+        {
+          model: User,
+          as: 'to',
+          attributes: ['id', 'name'],
+          where: { name: { [Op.iLike]: '%mama%' } }
+        },
         { model: User, as: 'from', attributes: ['id', 'name'] }
       ]
     });

@@ -12,6 +12,17 @@ router.get('/', (req, res) => {
     });
 });
 
+//Search for kudo with specific terms
+router.get('/:term', (req, res) => {
+  kudoHelpers
+    .searchKudo(req.params.term)
+    .then(result => res.json(result))
+    .catch(err => {
+      console.log(err);
+      res.status(404).json({ error: 'Server error' });
+    });
+});
+
 //Posts new kudos to database
 router.post('/', (req, res) => {
   kudoHelpers
